@@ -20,19 +20,25 @@ namespace FreakyFashionServices.Basket.API.Controllers
 
         // PUT api/basket/id
         [HttpPut("{id}")]
-        public async Task CreateOrReplaceBasket(string id, List<ItemDto> items)
+        public async Task<IActionResult> CreateOrReplaceBasket(string id, List<ItemDto> items)
         {
             await cache.SetRecordAsync(id, items);
 
+            return NoContent();
         }
 
         // GET api/basket/id
         [HttpGet("{id}")]
-        public async Task<List<ItemDto>> GetBasketById(string id)
+        public async Task<IActionResult> GetBasketById(string id)
         {
             var basket = await cache.GetRecordAsync<List<ItemDto>>(id);
 
-            return basket;
+            if (basket is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(basket);
         }
     }
 }
