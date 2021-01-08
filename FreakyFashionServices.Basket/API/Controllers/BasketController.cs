@@ -24,7 +24,7 @@ namespace FreakyFashionServices.Basket.API.Controllers
         {
             await cache.SetRecordAsync(id, items);
 
-            return NoContent();
+            return NoContent();  // 204 No Content
         }
 
         // GET api/basket/id
@@ -35,10 +35,10 @@ namespace FreakyFashionServices.Basket.API.Controllers
 
             if (basket is null)
             {
-                return NotFound();
+                return NotFound();  // 404 Not Found 
             }
 
-            return Ok(basket);
+            return Ok(basket); // 200 Ok
         }
     }
 }

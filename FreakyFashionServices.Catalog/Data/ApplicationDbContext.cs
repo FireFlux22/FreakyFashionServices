@@ -6,6 +6,11 @@ namespace FreakyFashionServices.Catalog.Data
 {
     public class ApplicationDbContext : DbContext
     {
+
+        // Nuget Packages:
+        // Microsoft.EntityFrameworkCore.SqlServer
+        // Microsoft.EntityFrameworkCore.Tools
+
         public DbSet<Item> Item { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
