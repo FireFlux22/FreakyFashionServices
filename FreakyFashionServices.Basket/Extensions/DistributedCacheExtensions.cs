@@ -15,7 +15,7 @@ namespace FreakyFashionServices.Basket.Extensions
         {
             var options = new DistributedCacheEntryOptions();
 
-            options.AbsoluteExpirationRelativeToNow = absoluteExpireTime ?? TimeSpan.FromSeconds(60); // cache finns kvar i 60 sek
+            options.AbsoluteExpirationRelativeToNow = absoluteExpireTime ?? TimeSpan.FromSeconds(300); // cache finns kvar i 5 min
             options.SlidingExpiration = unusedExpireTime;
 
             var jsonData = JsonSerializer.Serialize(data);
