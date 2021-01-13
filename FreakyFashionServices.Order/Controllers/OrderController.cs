@@ -22,7 +22,7 @@ namespace FreakyFashionServices.Order.Controllers
 
         // POST /api/order
         [HttpPost]
-        public async Task<IActionResult> CompleteOrder(string customerId, string firstName, string lastName)
+        public async Task<IActionResult> CompleteOrder(string customerId, string firstName, string lastName) // FUNKAR ENDAST MED INSKICK FRÅN PARAMS, INTE BODY
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:63316/api/basket/" + customerId);
 

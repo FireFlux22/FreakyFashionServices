@@ -11,7 +11,7 @@ namespace FreakyFashionServices.ProductPrice.Controllers
     {        
         // GET /price/{quantity}
         [HttpGet("{quantity}")]
-        public IEnumerable<PriceDto> GetPrice(int quantity)
+        public IEnumerable<PriceDto> GetPrice(int quantity) // FUNKAR ENDAST GENOM API GATEWAY, INTE OM MAN VILL SKICKA IN SPECIFIKA ARTIKELNUMMER
         {
             var random = new Random();
 

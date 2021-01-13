@@ -64,7 +64,7 @@ namespace FreakyFashionServices.Gateway.Controllers
 
         // PUT gateway/id
         [HttpPut("{id}")]
-        public async Task<IActionResult> AddToBasket(string id, string items)
+        public async Task<IActionResult> AddToBasket(string id, string items) // FUNKAR INTE ALLS
         {
             var request = new HttpRequestMessage(HttpMethod.Put, "http://localhost:63316/api/basket/" + id);
 
