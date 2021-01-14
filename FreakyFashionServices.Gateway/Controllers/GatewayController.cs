@@ -19,6 +19,8 @@ namespace FreakyFashionServices.Gateway.Controllers
             this.clientFactory = clientFactory;
         }
 
+        // GET /gateway
+        // Connects to api/catalog/items + api/price
         [HttpGet]
         public async Task<IEnumerable<ItemDto>> GetProducts()
         {

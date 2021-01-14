@@ -1,4 +1,5 @@
 ﻿using FreakyFashionServices.Order.Data;
+using FreakyFashionServices.Order.Data.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net.Http;
@@ -22,9 +23,9 @@ namespace FreakyFashionServices.Order.Controllers
 
         // POST /api/order
         [HttpPost]
-        public async Task<IActionResult> CompleteOrder(string customerId, string firstName, string lastName) // FUNKAR ENDAST MED INSKICK FRÅN PARAMS, INTE BODY
+        public async Task<IActionResult> CompleteOrder(CustomerDto customer)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:63316/api/basket/" + customerId);
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:63316/api/basket/" + customer.CustomerIdentifier);
 
             request.Headers.Add("Accept", "application/json");
 
@@ -35,10 +36,10 @@ namespace FreakyFashionServices.Order.Controllers
             var serializedBasket = await response.Content.ReadAsStringAsync();
 
             var order = new Data.Entities.Order(
-                    customerId: customerId,
+                    customerId: customer.CustomerIdentifier,
                     orderId: DateTime.Now.ToString(),
-                    firstName: firstName,
-                    lastName: lastName,
+                    firstName: customer.FirstName,
+                    lastName: customer.LastName,
                     basket: serializedBasket
                 );
 
