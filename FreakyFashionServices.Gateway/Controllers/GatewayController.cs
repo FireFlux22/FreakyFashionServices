@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -72,22 +73,46 @@ namespace FreakyFashionServices.Gateway.Controllers
         }
 
         // PUT gateway/id
+        // Connects to api/basket/id
         [HttpPut("{id}")]
-        public async Task<IActionResult> AddToBasket(string id, List<BasketItemDto> items) // FUNKAR INTE ALLS
+        public async Task<IActionResult> AddToBasket(string id, List<BasketItemDto> items)
         {
             var request = new HttpRequestMessage(HttpMethod.Put, "http://localhost:63316/api/basket/" + id);
 
             request.Headers.Add("Accept", "application/json");
 
-            var stringifyItems = items.ToString();
+            var json = JsonSerializer.Serialize(items); // serialisera Basket
 
-            request.Content = new StringContent(stringifyItems);
+            request.Content = new StringContent(json, Encoding.UTF8, "application/json"); // lägg till Basket i body
 
             var client = clientFactory.CreateClient();
 
             await client.SendAsync(request);
 
             return NoContent();  // 204 No Content
+        }
+
+
+        // POST /gateway
+        // Connects to /api/order
+        [HttpPost]
+        public async Task<IActionResult> CompleteOrder(CustomerDto customer)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:60543/api/order/");
+
+            request.Headers.Add("Accept", "application/json");
+
+            var json = JsonSerializer.Serialize(customer); 
+
+            request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var client = clientFactory.CreateClient();
+
+            var response = await client.SendAsync(request);
+
+            var orderId = await response.Content.ReadAsStringAsync();
+
+            return Ok(orderId);
         }
     }
 }
