@@ -42,7 +42,14 @@ namespace FreakyFashionServices.Gateway.Controllers
 
             // Get random price
 
-            request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:51443/price/" + productDto.Count());
+            var articleNumberList = "";
+
+            foreach (var product in productDto)
+            {
+                articleNumberList += product.ArticleNumber + ",";
+            }
+
+            request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:51443/api/price" + "?products=" + articleNumberList);
 
             request.Headers.Add("Accept", "application/json");
 
@@ -54,7 +61,7 @@ namespace FreakyFashionServices.Gateway.Controllers
 
             foreach (var item in priceDto)
             {
-                var product = productDto.FirstOrDefault(x => x.Id == item.ArticleNumber);
+                var product = productDto.FirstOrDefault(x => x.ArticleNumber == item.ArticleNumber);
 
                 product.Price = item.Price;
             }
@@ -64,13 +71,15 @@ namespace FreakyFashionServices.Gateway.Controllers
 
         // PUT gateway/id
         [HttpPut("{id}")]
-        public async Task<IActionResult> AddToBasket(string id, string items) // FUNKAR INTE ALLS
+        public async Task<IActionResult> AddToBasket(string id, List<BasketItemDto> items) // FUNKAR INTE ALLS
         {
             var request = new HttpRequestMessage(HttpMethod.Put, "http://localhost:63316/api/basket/" + id);
 
             request.Headers.Add("Accept", "application/json");
 
-            request.Content = new StringContent(items);
+            var stringifyItems = items.ToString();
+
+            request.Content = new StringContent(stringifyItems);
 
             var client = clientFactory.CreateClient();
 

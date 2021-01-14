@@ -27,18 +27,21 @@ namespace FreakyFashionServices.Catalog.Data
                 new Item (
                     id: 1,
                     name: "Black pants",
+                    articleNumber: "111222",
                     description: "Lorem ipsum dolor",
                     price: 499,
                     availableStock: 4),
                 new Item (
                     id: 2,
                     name: "Red dress",
+                    articleNumber: "AAABBB",
                     description: "Trouble on two legs",
                     price: 899,
                     availableStock: 2),
                 new Item (
                     id: 3,
                     name: "Cowboy hat",
+                    articleNumber: "ABC123",
                     description: "Howdy, partner!",
                     price: 250,
                     availableStock: 10)

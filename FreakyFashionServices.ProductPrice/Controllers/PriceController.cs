@@ -2,77 +2,34 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FreakyFashionServices.ProductPrice.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class PriceController : ControllerBase
     {        
-        // GET /price/{quantity}
-        [HttpGet("{quantity}")]
-        public IEnumerable<PriceDto> GetPrice(int quantity) // FUNKAR ENDAST GENOM API GATEWAY, INTE OM MAN VILL SKICKA IN SPECIFIKA ARTIKELNUMMER
+        // GET: api/price
+        [HttpGet]
+        public IEnumerable<PriceDto> Get(string products)
         {
-            var random = new Random();
+            var productList = products.Split(',').ToList();
 
-            var productPriceList = new List<PriceDto>();
+            var response = new List<PriceDto>();
 
-            int id = 1;
+            Random random = new Random();
 
-            for (int i = 0; i < quantity; i++)
+            foreach (var item in productList)
             {
-                int price = random.Next(1000);
+                if (String.IsNullOrEmpty(item)) continue;
 
-                var productPrice = new PriceDto
-                {
-                    Price = price,
-                    ArticleNumber = id
-                };
-
-                id++; 
-
-                productPriceList.Add(productPrice);
-
+                response.Add(new PriceDto() { 
+                    ArticleNumber = item, 
+                    Price = random.Next(1000) });
             }
 
-            return productPriceList;
-
+            return response;
         }
-
-        //// GET /api/productprice?products=ABC123,BCA321,AAA123,BBB123
-        //[HttpGet("products={id}")]
-        //public IEnumerable<PriceDto> Get(int id)
-        //{
-        //    var random = new Random();
-
-        //    var productPriceList = new List<PriceDto>();
-
-        //    //foreach (var product in id)
-        //    //{
-        //    //    int price = random.Next(1000);
-
-        //    //    var productPrice = new PriceDto
-        //    //    {
-        //    //        Price = price,
-        //    //        ArticleNumber = product
-        //    //    };
-
-        //    //    productPriceList.Add(productPrice);
-
-        //    //}
-
-        //    int price = random.Next(1000);
-
-        //    var productPrice = new PriceDto
-        //    {
-        //        Price = price,
-        //        ArticleNumber = id
-        //    };
-
-        //    productPriceList.Add(productPrice);
-
-        //    return productPriceList;
-
-        //}
     }
 }
